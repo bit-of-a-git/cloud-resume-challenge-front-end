@@ -3,40 +3,55 @@ resource "aws_s3_bucket" "resume_bucket" {
 
 }
 
+
+# Get rid of these if they don't work - experimenting with removing the website configuration
+# resource "aws_s3_bucket_acl" "s3_bucket_acl" {
+#   bucket = aws_s3_bucket.resume_bucket.id
+#   acl    = "private"
+# }
+resource "aws_s3_bucket_public_access_block" "block_public_access" {
+  bucket = aws_s3_bucket.resume_bucket.id
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
 # resource "aws_s3_bucket_public_access_block" "public_read" {
 #   bucket = aws_s3_bucket.resume_bucket.id
 
 # }
 
-resource "aws_s3_bucket_policy" "public_read" {
-  bucket = aws_s3_bucket.resume_bucket.id
-  policy = data.aws_iam_policy_document.public_read.json
-}
+# resource "aws_s3_bucket_policy" "public_read" {
+#   bucket = aws_s3_bucket.resume_bucket.id
+#   policy = data.aws_iam_policy_document.public_read.json
+# }
 
-data "aws_iam_policy_document" "public_read" {
-  statement {
-    principals {
-      type        = "*"
-      identifiers = ["*"]
-    }
+# data "aws_iam_policy_document" "public_read" {
+#   statement {
+#     principals {
+#       type        = "*"
+#       identifiers = ["*"]
+#     }
 
-    actions = [
-      "s3:GetObject",
-    ]
+#     actions = [
+#       "s3:GetObject",
+#     ]
 
-    resources = [
-      "arn:aws:s3:::${aws_s3_bucket.resume_bucket.id}/*",
-    ]
-  }
-}
+#     resources = [
+#       "arn:aws:s3:::${aws_s3_bucket.resume_bucket.id}/*",
+#     ]
+#   }
+# }
 
-resource "aws_s3_bucket_website_configuration" "simple" {
-  bucket = aws_s3_bucket.resume_bucket.id
+# resource "aws_s3_bucket_website_configuration" "simple" {
+#   bucket = aws_s3_bucket.resume_bucket.id
 
-  index_document {
-    suffix = "index.html"
-  }
-}
+#   index_document {
+#     suffix = "index.html"
+#   }
+# }
 
 locals {
   mime_types = {

@@ -10,16 +10,17 @@
 
 resource "aws_cloudfront_distribution" "s3_distribution" {
   origin {
-    domain_name              = aws_s3_bucket_website_configuration.simple.website_endpoint
+    domain_name              = aws_s3_bucket.resume_bucket.bucket_regional_domain_name
     origin_id                = "MyS3Resume"
+    origin_access_control_id = aws_cloudfront_origin_access_control.S3-Resume.id
 
-    custom_origin_config {
-      origin_ssl_protocols     = ["TLSv1.2"]
-      http_port                = 80
-      https_port               = 443
-      origin_keepalive_timeout = 5
-      origin_protocol_policy   = "http-only"
-    }
+    # custom_origin_config {
+    #   origin_ssl_protocols     = ["TLSv1.2"]
+    #   http_port                = 80
+    #   https_port               = 443
+    #   origin_keepalive_timeout = 5
+    #   origin_protocol_policy   = "http-only"
+    # }
   }
 
 # this is here while the ACM is hashed
@@ -60,3 +61,64 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     compress               = true
   }
 }
+
+resource "aws_cloudfront_origin_access_control" "S3-Resume" {
+  name                              = "CloudFront S3 OAC"
+  description                       = "CloudFront S3 OAC"
+  origin_access_control_origin_type = "s3"
+  signing_behavior                  = "always"
+  signing_protocol                  = "sigv4"
+}
+
+resource "aws_s3_bucket_policy" "allow_Cloudfront_access" {
+  bucket = aws_s3_bucket.resume_bucket.id
+  policy = data.aws_iam_policy_document.allow_Cloudfront_access.json
+}
+
+
+data "aws_iam_policy_document" "allow_Cloudfront_access" {
+  statement {
+    principals {
+      type        = "Service"
+      identifiers = ["cloudfront.amazonaws.com"]
+    }
+
+    actions = [
+      "s3:GetObject"
+    ]
+
+    resources = [
+      "${aws_s3_bucket.resume_bucket.arn}/*",
+    ]
+    condition {
+      test     = "StringEquals"
+      variable = "AWS:SourceArn"
+
+      values = [
+        "${aws_cloudfront_distribution.s3_distribution.arn}",
+      ]
+    }
+  }
+}
+
+# resource "aws_s3_bucket_policy" "b" {
+
+#   policy = <<POLICY
+# {
+#   "Version": "2008-10-17",
+#   "Id": "PolicyForCloudFrontPrivateContent",
+#   "Statement": [
+#     {
+#       "Sid": "AllowCloudFrontServicePrincipal",
+#       "Effect": "Allow",
+#       "Principal": "cloudfront.amazonaws.com",
+#       "Action": "s3:GetObject",
+#       "Resource": "${aws_s3_bucket.resume_bucket.arn}/*",
+#       "Condition": {
+#          "StringEquals": {"AWS:SourceArn": "${aws_cloudfront_distribution.s3_distribution.arn}"}
+#       }
+#     }
+#   ]
+# }
+# POLICY
+# }
