@@ -18,11 +18,11 @@ terraform {
 
 provider "aws" {
   # This is the default
-  region  = "eu-west-1"
+  region = "eu-west-1"
 }
 
 provider "aws" {
   # This is to allow the creation of the ACM in us-east-1
   region = "us-east-1"
-  alias = "us-east-1"
+  alias  = "us-east-1"
 }
