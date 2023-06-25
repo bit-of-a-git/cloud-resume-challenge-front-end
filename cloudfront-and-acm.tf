@@ -1,12 +1,12 @@
-# resource "aws_acm_certificate" "mywebsite" {
-#   provider          = aws.us-east-1
-#   domain_name       = "davidoconnor.me"
-#   validation_method = "DNS"
+resource "aws_acm_certificate" "mywebsite" {
+  provider          = aws.us-east-1
+  domain_name       = "davidoconnor.me"
+  validation_method = "DNS"
 
-#   lifecycle {
-#     create_before_destroy = true
-#   }
-# }
+  lifecycle {
+    create_before_destroy = true
+  }
+}
 
 resource "aws_cloudfront_distribution" "s3_distribution" {
   origin {
@@ -16,15 +16,15 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   }
 
   # this is here while the ACM is hashed
-  viewer_certificate {
-    cloudfront_default_certificate = true
-  }
+  # viewer_certificate {
+  #   cloudfront_default_certificate = true
+  # }
 
   # Unhash this when the ACM is unhashed
-  # viewer_certificate {
-  #   acm_certificate_arn = aws_acm_certificate.mywebsite.arn
-  #   ssl_support_method  = "sni-only"
-  # }
+  viewer_certificate {
+    acm_certificate_arn = aws_acm_certificate.mywebsite.arn
+    ssl_support_method  = "sni-only"
+  }
 
   enabled             = true
   is_ipv6_enabled     = true
@@ -37,7 +37,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   }
 
   # Unhash this when the ACM is unhashed
-  # aliases = ["davidoconnor.me"]
+  aliases = ["davidoconnor.me"]
 
   default_cache_behavior {
     cache_policy_id            = "658327ea-f89d-4fab-a63d-7e88639e58f6"
@@ -80,7 +80,7 @@ resource "aws_cloudfront_response_headers_policy" "security_headers_policy" {
       override                   = true
     }
     content_security_policy {
-      content_security_policy = "frame-ancestors 'none'; default-src 'self' https://sj5qwca5eh.execute-api.eu-west-1.amazonaws.com; img-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; object-src 'none'"
+      content_security_policy = "frame-ancestors 'none'; default-src 'self' https://afb6q3gz26.execute-api.eu-west-1.amazonaws.com/dev; img-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; object-src 'none'"
       override                = true
     }
   }
