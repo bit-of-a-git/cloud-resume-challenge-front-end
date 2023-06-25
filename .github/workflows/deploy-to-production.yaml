@@ -61,3 +61,7 @@ jobs:
     - name: Terraform Apply Status
       if: ${{ steps.apply.outcome == 'failure' }}
       run: exit 1
+
+    - name: Invalidate CloudFront Cache
+      run: |
+        aws cloudfront create-invalidation --distribution-id $(terraform output -raw cloudfront_distribution_ID) --paths "/*"
