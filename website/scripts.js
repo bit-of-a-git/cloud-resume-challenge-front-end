@@ -1,51 +1,55 @@
 const myURL = "https://afb6q3gz26.execute-api.eu-west-1.amazonaws.com/dev";
 
-function hasVisitedBefore() {
+const hasVisitedBefore = () => {
   return document.cookie.includes("visited=true");
-}
+};
 
-function setVisited() {
+const setVisited = () => {
   document.cookie = "visited=true; path=/";
-}
+};
 
-function fetchCount() {
+const fetchCount = () => {
   return fetch(myURL)
     .then((response) => {
       if (!response.ok) {
-        throw new Error('Failed to fetch count');
+        throw new Error('Failed to fetch count: ${response.status}');
       }
       return response.json();
     });
+};
+
+const incrementCount = () => {
+  return fetch(myURL, { method: 'POST' })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Failed to increment count: ${response.status}`);
+      }
+    });
 }
 
-function updateCount() {
+const updateCount = () => {
   if (!hasVisitedBefore()) {
-    fetch(myURL, { method: 'POST' }) // Perform a POST request to increment the count
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Failed to update count');
-        }
-        return fetchCount();
-      })
+    incrementCount()
+      .then(() => fetchCount())
       .then((count) => {
         document.getElementById('counter').innerHTML = count;
         setVisited();
       })
       .catch((error) => {
-        console.error(error);
+        console.error(`Error: ${error}`);
       });
   }
 }
 
-function getCount() {
+const getCount = () => {
   fetchCount()
     .then((count) => {
       document.getElementById('counter').innerHTML = count;
     })
     .catch((error) => {
-      console.error(error);
+      console.error('Error: ${error}');
     });
-}
+};
 
 updateCount();
 getCount();
