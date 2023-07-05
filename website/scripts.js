@@ -1,4 +1,4 @@
-const myURL = " https://fthtevm397.execute-api.eu-west-1.amazonaws.com/dev";
+const myURL = "https://491l95pzw4.execute-api.eu-west-1.amazonaws.com/dev";
 
 const hasVisitedBefore = () => {
   return document.cookie.includes("visited=true");
