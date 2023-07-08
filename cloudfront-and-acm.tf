@@ -1,6 +1,6 @@
 resource "aws_acm_certificate" "mywebsite" {
   provider          = aws.us-east-1
-  domain_name       = "davidoconnor.me"
+  domain_name       = var.domain_name
   validation_method = "DNS"
 
   lifecycle {
@@ -11,7 +11,7 @@ resource "aws_acm_certificate" "mywebsite" {
 resource "aws_cloudfront_distribution" "s3_distribution" {
   origin {
     domain_name              = aws_s3_bucket.resume_bucket.bucket_regional_domain_name
-    origin_id                = "MyS3Resume"
+    origin_id                = var.origin_id_name
     origin_access_control_id = aws_cloudfront_origin_access_control.S3-Resume.id
   }
 
@@ -37,13 +37,13 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   }
 
   # Unhash this when the ACM is unhashed
-  aliases = ["davidoconnor.me"]
+  aliases = [var.domain_name]
 
   default_cache_behavior {
     cache_policy_id            = "658327ea-f89d-4fab-a63d-7e88639e58f6"
     allowed_methods            = ["GET", "HEAD"]
     cached_methods             = ["GET", "HEAD"]
-    target_origin_id           = "MyS3Resume"
+    target_origin_id           = var.origin_id_name
     response_headers_policy_id = aws_cloudfront_response_headers_policy.security_headers_policy.id
 
     viewer_protocol_policy = "redirect-to-https"
@@ -88,7 +88,6 @@ resource "aws_cloudfront_response_headers_policy" "security_headers_policy" {
 
 resource "aws_cloudfront_origin_access_control" "S3-Resume" {
   name                              = "CloudFront S3 OAC"
-  description                       = "CloudFront S3 OAC"
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"
   signing_protocol                  = "sigv4"
