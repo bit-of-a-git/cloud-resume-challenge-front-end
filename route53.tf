@@ -1,10 +1,10 @@
 resource "aws_route53_zone" "resume_website" {
-  name = "davidoconnor.me"
+  name = var.domain_name
 }
 
 resource "aws_route53_record" "resume_website" {
   zone_id = aws_route53_zone.resume_website.zone_id
-  name    = "davidoconnor.me"
+  name    = var.domain_name
   type    = "A"
   alias {
     name                   = aws_cloudfront_distribution.s3_distribution.domain_name
