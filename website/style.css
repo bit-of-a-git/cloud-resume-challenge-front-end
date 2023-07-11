@@ -146,6 +146,10 @@ section:last-child {
 	color: #444;
 }
 
+ul.projectList li {
+	line-height: 1.5em;
+}
+
 .subDetails {
 	font-size: 0.8em;
 	font-style: italic;
