@@ -25,3 +25,7 @@ I enjoyed learning about HTML and CSS. I spent quite a bit of time using VSCode'
 ## Automation and CI/CD
 
 Changes are made to the dev branch, pushed to Github, and then a pull request may be made to main. After passing CodeQL tests, they are allowed merge to main. This triggers Github Actions, which updates the production deployment and invalidates Cloudfront to ensure the new files are correctly served.
+
+## Blog Post
+
+You can find my blog post [here](https://dev.to/bit-of-a-git/a-security-focused-cloud-resume-challenge-16aa)
