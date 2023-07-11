@@ -28,4 +28,4 @@ Changes are made to the dev branch, pushed to Github, and then a pull request ma
 
 ## Blog Post
 
-You can find my blog post [here](https://dev.to/bit-of-a-git/a-security-focused-cloud-resume-challenge-16aa)
+You can find my blog post [here](https://dev.to/bit-of-a-git/a-security-focused-cloud-resume-challenge-16aa).
