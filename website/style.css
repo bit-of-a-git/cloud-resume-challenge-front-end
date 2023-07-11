@@ -19,6 +19,10 @@ html, body {background: #181818; font-family: 'Lato', helvetica, arial, sans-ser
 
 .clear {clear: both;}
 
+strong {
+    font-weight: bold;
+}
+
 p {
 	font-size: 1em;
 	line-height: 1.4em;
