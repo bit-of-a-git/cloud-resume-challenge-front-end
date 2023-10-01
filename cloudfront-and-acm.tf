@@ -38,7 +38,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   }
 
   # Unhash this when the ACM is unhashed
-  aliases = [var.domain_name]
+  aliases = [var.domain_name, "www.${var.domain_name}"]
 
   default_cache_behavior {
     cache_policy_id            = "658327ea-f89d-4fab-a63d-7e88639e58f6"
