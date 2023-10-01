@@ -81,7 +81,7 @@ resource "aws_cloudfront_response_headers_policy" "security_headers_policy" {
       override                   = true
     }
     content_security_policy {
-      content_security_policy = "frame-ancestors 'none'; default-src 'self' https://npwq0kjga0.execute-api.eu-west-1.amazonaws.com/dev; img-src 'self'; script-src 'self' https://dev.to/bit-of-a-git/a-security-focused-cloud-resume-challenge-16aa https://github.com/bit-of-a-git/; style-src 'self' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; object-src 'none'"
+      content_security_policy = "frame-ancestors 'none'; default-src 'self' https://npwq0kjga0.execute-api.eu-west-1.amazonaws.com/dev; img-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; object-src 'none'"
       override                = true
     }
   }
