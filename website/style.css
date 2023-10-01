@@ -15,6 +15,15 @@ article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section {
 display:block;
 }
 
+article details summary {
+    cursor: pointer;
+    position: relative;
+}
+
+article summary h2 {
+    display: inline-block;
+}
+
 html, body {background: #181818; font-family: 'Lato', helvetica, arial, sans-serif; font-size: 16px; color: #222;}
 
 .clear {clear: both;}
@@ -140,12 +149,11 @@ section:last-child {
 .sectionContent h2 {
 	font-family: 'Rokkitt', Helvetica, Arial, sans-serif;
 	font-size: 1.5em;
-	margin-bottom: -2px;
 }
 
 .sectionContent ul li {
 	list-style-type: square;
-	line-height: .5em;
+	/* line-height: .5em; */
 	margin-bottom: 20px;
 	color: #444;
 }
@@ -155,9 +163,8 @@ ul.projectList li {
 }
 
 .subDetails {
-	font-size: 0.8em;
+	font-size: 0.9em;
 	font-style: italic;
-	margin-bottom: 3px;
 }
 
 .subDetails-right {
@@ -176,13 +183,29 @@ ul.projectList li {
 	-moz-column-count:2;
 	-webkit-column-count:2;
 	column-count:2;
-	margin-bottom: 20px;
+	/* margin-bottom: 20px; */
 	font-size: 1em;
 	color: #444;
 }
 
 .keySkills ul li {
 	margin-bottom: 3px;
+}
+
+.project-button {
+  	font-size: .8em;
+	border: 1px solid #cf8a05;
+	border-radius: 2px;
+	padding: 3px 6px;
+	background-color: rgb(249, 219, 164);
+	cursor: pointer;
+	box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.3);
+  	transition: box-shadow 0.3s ease-in-out;
+	margin-bottom: 20px;
+}
+
+div.sectionContent ul.projectList li {
+	margin-bottom: 5px;
 }
 
 .bolded { font-weight: bold; }
