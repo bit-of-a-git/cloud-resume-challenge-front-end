@@ -5,15 +5,16 @@ on:
     branches:
       - main
 
+permissions:
+  id-token: write    # Job to connect to Identity Token to receive the token
+  contents: read     # Read access to the repository
+
 env:
   aws-production-account: ${{ secrets.AWS_PRODUCTION_ACCOUNT }}
   aws-production-bucket: ${{ secrets.AWS_PRODUCTION_BUCKET }}
 
 jobs:
   build:
-    permissions:
-      id-token: write    # Job to connect to Identity Token to receive the token
-      contents: read     # Read access to the repository
     runs-on:
        - ubuntu-latest
        
